@@ -3,12 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>BlackJack</title>
 </head>
 <body>
-    
+
+
+    <header class="titulo">Titulo</header>
+
+    <div class="row pt-2">
+        <div class="col text-center">
+            <button class="btn btn-primary">Sacar Carta</button>
+            <button class="btn btn-success">Nuevo Juego</button>
+            <button class="btn btn-danger">Detener</button>
+        </div>
+    </div>
+
+    <div class="row container">
+        <div class="col">
+            <h1>Jugador 1 <small>Puntaje - 0</small></h1>
+            <div id="jugador-cartas">
+                <img class="carta" src="./Assets/cartas/10C.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="row container mt-5">
+        <div class="col">
+            <h1>Computadora <small>Puntaje - 0</small></h1>
+            <div id="computadora-cartas">
+                <!-- <img class="carta" src="./Assets/cartas/3C.png" alt="">
+                <img class="carta" src="./Assets/cartas/3C.png" alt="">
+                <img class="carta" src="./Assets/cartas/3C.png" alt="">
+                <img class="carta" src="./Assets/cartas/3C.png" alt="">
+                <img class="carta" src="./Assets/cartas/3C.png" alt=""> -->
+            </div>
+        </div>
+    </div>
+
     <script src="./js/jquery.js"></script>
     <script src="./js/bootstrap.min.js"></script>
 </body>
