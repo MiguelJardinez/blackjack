@@ -1,9 +1,4 @@
-/**
- * 2C = two of clubs (Tréboles)
- * 2D = two of Dimons (Diamantes)
- * 2H = two of Heart (Corazones)
- * 2S = two of Swords (Espadas)
- */
+
 
 //Valirables del dom 
 let btnPedir = document.querySelector('#btnPedir');
