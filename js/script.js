@@ -5,68 +5,68 @@
  * 2S = two of Swords (Espadas)
  */
 
- //Valirables del dom 
+//Valirables del dom 
 let btnPedir = document.querySelector('#btnPedir');
 let btnNuevo = document.querySelector('#btnNuevo');
 let btnDetener = document.querySelector('#btnDetener');
-let puntosHTML = document.querySelectorAll('small') 
+let puntosHTML = document.querySelectorAll('small')
 let divCartasJugador = document.querySelector('#jugador-cartas');
 let divCartasComputadora = document.querySelector('#computadora-cartas');
 
- //Se genera el deck para el juego 
- let deck         = [];
- const tipos      = ['C', 'D', 'H', 'S']; 
- const especiales = ['A', 'J', 'Q', 'K']; 
- let puntosJugardor = 0; 
- let puntosComputadora = 0; 
+//Se genera el deck para el juego 
+let deck = [];
+const tipos = ['C', 'D', 'H', 'S'];
+const especiales = ['A', 'J', 'Q', 'K'];
+let puntosJugardor = 0;
+let puntosComputadora = 0;
 
- //Esta funcion crea una nueva baraja
-const crearDeck =  () => {
+//Esta funcion crea una nueva baraja
+const crearDeck = () => {
 
-    for(let i = 2; i <= 10; i++ ){
-        for(let tipo of tipos){
-            deck.push( i + tipo );
+    for (let i = 2; i <= 10; i++) {
+        for (let tipo of tipos) {
+            deck.push(i + tipo);
         }
     }
 
-    for(let tipo of tipos){
-        for(let esp of especiales){
+    for (let tipo of tipos) {
+        for (let esp of especiales) {
             deck.push(esp + tipo);
         }
     }
-    
-    deck = _.shuffle( deck );
-    return deck; 
+
+    deck = _.shuffle(deck);
+    return deck;
 }
 
-crearDeck(); 
+crearDeck();
 
 //Esta funcion me permite pedir una carta de la baraja
 
 const pedirCarta = () => {
 
-    
-    if (deck.length === 0){
-        throw 'No hay cartas en el deck'; 
+
+    if (deck.length === 0) {
+        throw 'No hay cartas en el deck';
     }
-    
+
     const carta = deck.pop();
-    return carta; 
+    return carta;
 }
 
-pedirCarta(); 
+pedirCarta();
 
 //Pedir carta
-const valorCarta = ( carta ) => {
+const valorCarta = (carta) => {
 
-    const valor = carta.substring(0, carta.length - 1); 
-    return ( isNaN(valor) ) ?
-           ( valor === 'A' ) ? 11 : 10
-            : valor * 1;  
+    const valor = carta.substring(0, carta.length - 1);
+    return (isNaN(valor)) ?
+        (valor === 'A') ? 11 : 10
+        : valor * 1;
     // let puntos = 0; 
-    
+
     // if( isNaN( valor ) ){
-        
+
     //     puntos = ( valor === 'A' ) ? 11 : 10; 
 
     // } else {
@@ -74,38 +74,66 @@ const valorCarta = ( carta ) => {
     //     puntos = valor * 1; 
     // }
     // console.log( puntos );
-    
+
 }
 
-const valor = valorCarta( pedirCarta() ); 
+const valor = valorCarta(pedirCarta());
+
+// turno de la computador
+const turnoComputadora = ( puntosMinimos ) => {
+
+    do {
+        const carta = pedirCarta();
+
+        puntosComputadora = puntosComputadora + valorCarta(carta);
+        puntosHTML[1].innerText = puntosComputadora;
+
+        //creacion de la carta
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `./Assets/cartas/${carta}.png`;
+        imgCarta.classList.add('carta');
+        divCartasComputadora.append(imgCarta);
+
+        if( puntosMinimos > 21 ){
+            break; 
+        }
+
+    } while( (puntosComputadora < puntosMinimos) && ( puntosMinimos <= 21 ) );
+
+}
 
 
 //Eventos
 btnPedir.addEventListener('click', () => {
 
     const carta = pedirCarta();
-    
-    puntosJugardor = puntosJugardor + valorCarta( carta ); 
-    puntosHTML[0].innerText = puntosJugardor; 
+
+    puntosJugardor = puntosJugardor + valorCarta(carta);
+    puntosHTML[0].innerText = puntosJugardor;
 
     //creacion de la carta
     const imgCarta = document.createElement('img');
     imgCarta.src = `./Assets/cartas/${carta}.png`;
-    imgCarta.classList.add('carta'); 
-    divCartasJugador.append( imgCarta ); 
+    imgCarta.classList.add('carta');
+    divCartasJugador.append(imgCarta);
 
-    if(puntosJugardor > 21 ){
+    if (puntosJugardor > 21) {
         alert('Lo siento has perdido')
         console.warn('Lo siento has perdido');
         btnPedir.disabled = true;
+        turnoComputadora( puntosJugardor ); 
 
-    } else if( puntosJugardor == 21){
+    } else if (puntosJugardor == 21) {
         alert('has ganado el jugego');
         console.warn('21, lo conseguiste');
-        
         btnPedir.disabled = true;
+        turnoComputadora( puntosComputadora ); 
     }
-    
-    
 
 });
+
+btnDetener.addEventListener('click', () => {
+    btnPedir.disabled = true;
+    btnDetener.disabled = true;
+    turnoComputadora( puntosJugardor ); 
+})
